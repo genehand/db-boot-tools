@@ -556,6 +556,10 @@ def CreateGPTPartitionTable(PhysicalPartitionNumber,UserProvided=False):
         PhyPartition[k][j]['size_in_kb'] = int(PhyPartition[k][j]['size_in_kb'])
         print("\n\n%d of %d \"%s\" (readonly=%s) and size=%dKB (%dMB) (%i sectors with %i bytes/sector)" %(j+1,len(PhyPartition[k]),PhyPartition[k][j]['label'],PhyPartition[k][j]['readonly'],PhyPartition[k][j]['size_in_kb'],PhyPartition[k][j]['size_in_kb']/1024,ConvertKBtoSectors(PhyPartition[k][j]['size_in_kb']),SECTOR_SIZE_IN_BYTES))
 
+        # option to specify the first sector
+        if 'firstlba' in PhyPartition[k][j]:
+            FirstLBA = int(PhyPartition[k][j]['firstlba'])
+
         if (PhyPartition[k][j]['size_in_kb']*1024)%SECTOR_SIZE_IN_BYTES>0:
             ## Have a remainder, need to round up to next full sector
             TempResult = (PhyPartition[k][j]['size_in_kb']*1024)//SECTOR_SIZE_IN_BYTES
